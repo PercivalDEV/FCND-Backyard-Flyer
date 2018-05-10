@@ -36,11 +36,6 @@ class BackyardFlyer(Drone):
         self.register_callback(MsgID.STATE, self.state_callback)
 
     def local_position_callback(self):
-        """
-        TODO: Implement this method
-
-        This triggers when `MsgID.LOCAL_POSITION` is received and self.local_position contains new data
-        """
         if self.flight_state == States.TAKEOFF:
             if -1.0 * self.local_position[2] > 0.95 * self.target_position[2]:
                 print(self.local_position)
@@ -56,14 +51,12 @@ class BackyardFlyer(Drone):
                 else:
                     if distance < 1.0:
                         self.landing_transition()
-
     def velocity_callback(self):
         #checks for States.LANDING, if found and < 0.1 calls disarming_transition
         if self.flight_state == States.LANDING:
             if ((self.global_position[2] - self.global_home[2] < 0.1) and #Check if we are back to the home position and altitude is low
             abs(self.local_position[2]) < 0.01):
                 self.disarming_transition()
-
     def state_callback(self):
         if self.in_mission:
             if self.flight_state == States.MANUAL:
@@ -73,12 +66,16 @@ class BackyardFlyer(Drone):
             if self.flight_state == States.DISARMING:
                 if self.armed != True:
                     self.manual_transition()
-
     def calculate_box(self):
-        """TODO: Fill out this method
-        
-        1. Return waypoints to fly a box
-        """
+        print("I am calculating path!")
+        #2D Matrix measured in meters, First(North,South) Second(East,West), Altitude()
+        #The drone will fly in a square shape and land near the starting location
+        waypoints = [ [5.0, 0.0, 3.0],
+                      [5.0, 5.0, 5.0],
+                      [0.0, 5.0, 4.0],
+                      [0.0, 0.0, 3.0]                    
+                    ]
+        return waypoints
         pass
 
     def arming_transition(self):
