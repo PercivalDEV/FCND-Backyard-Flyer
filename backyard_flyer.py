@@ -76,6 +76,7 @@ class BackyardFlyer(Drone):
                       [0.0, 0.0, 3.0]                    
                     ]
         return waypoints
+
     def arming_transition(self):
         print("arming transition")
 
@@ -114,12 +115,10 @@ class BackyardFlyer(Drone):
         self.flight_state = States.TAKEOFF
 
     def disarming_transition(self):
-        """TODO: Fill out this method
-        
-        1. Command the drone to disarm
-        2. Transition to the DISARMING state
-        """
         print("disarm transition")
+
+        self.disarm()
+        self.flight_state= States.DISARMING
 
     def manual_transition(self):
         """This method is provided
