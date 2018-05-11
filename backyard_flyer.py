@@ -99,19 +99,19 @@ class BackyardFlyer(Drone):
     
     def waypoint_transition(self):
         print("waypoint transition")
-        
+
         self.target_position = self.all_waypoints.pop(0)
         print('target position is', self.target_position)
         self.cmd_position(self.target_position[0], self.target_position[1], self.target_position[2], 0.0)
         self.flight_state = States.WAYPOINT
 
     def landing_transition(self):
-        """TODO: Fill out this method
-        
-        1. Command the drone to land
-        2. Transition to the LANDING state
-        """
-        print("landing transition")
+        print("takeoff transition")
+
+        target_altitude = 3.0
+        self.target_position[2] = target_altitude
+        self.takeoff(target_altitude)
+        self.flight_state = States.TAKEOFF
 
     def disarming_transition(self):
         """TODO: Fill out this method
